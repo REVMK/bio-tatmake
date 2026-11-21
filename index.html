@@ -16,15 +16,15 @@ body:after{content:'';position:absolute;top:145px;left:50%;width:min(65vw,640px)
 main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px;margin-bottom:23px}.portrait img{object-position:50% 22%}.profile .logo{width:105px;margin-bottom:22px}.profile p{max-width:430px;font-size:16px;line-height:1.7}.profile p strong{font-weight:500}.profile .method-line{display:block;margin-top:6px;color:#174d43;font-size:14px;font-weight:600}.profile .recognition{font-size:12px;line-height:1.75;max-width:405px;margin:17px auto 0;color:#59685f}
 .card{background:linear-gradient(135deg,#fffdf8 15%,#f1f3e9 65%,#dfe9da);margin-bottom:25px}.cover-title{font:600 clamp(30px,8vw,45px)/.9 Inter,Arial,sans-serif;letter-spacing:-.075em;left:16px;bottom:19px;max-width:calc(100% - 30px);overflow-wrap:normal}.cover-title small{font-size:10px;letter-spacing:.25em;font-weight:500;margin-top:9px}.cover:after{background:linear-gradient(0deg,#071d19dc,transparent 75%),linear-gradient(90deg,#04161040,transparent 90%)}.bride img{object-position:50% 43%}.teach img{object-position:50% 30%}.copy{padding:20px 9px 2px}.eyebrow{font-size:11px;letter-spacing:.12em}.description{font-size:16px;line-height:1.7;margin-bottom:21px}.btn{font-size:12px;letter-spacing:0;text-transform:none;min-height:52px;padding:12px 13px;line-height:1.45}.btn svg{flex-shrink:0}.btn:after{display:none}.minor{padding:19px 17px}.icon{display:flex;align-items:center;justify-content:center;width:30px;flex-shrink:0}.icon img{width:28px;height:28px;object-fit:contain}.minor strong{font-size:15px}.minor small{font-size:13px;line-height:1.5}.divider{font-size:12px;letter-spacing:.1em}.card:focus-visible,.minor:focus-visible{outline:2px solid #a55e48;outline-offset:5px}footer{font-size:11px;margin-bottom:15px}
 @media(max-width:560px){.profile .logo{width:96px}.profile p{font-size:15px}.profile .recognition{font-size:12px}.cover-title{font-size:clamp(27px,8.2vw,43px)}.copy{padding:19px 7px 2px}.description{font-size:15px}.btn{font-size:12px;letter-spacing:0}h1,h2{font-size:30px}.minor small{font-size:12px}}
-</style><style id="image-crops">.bride img{object-position:50% 48%}.lesson img{object-position:50% 39%}.infographic img{object-fit:contain}.infographic:after{background:linear-gradient(0deg,#071d1999,transparent 35%)}.infographic .cover-title{font-size:clamp(27px,7.5vw,40px)}</style><style id="uppercase-buttons">.btn{text-transform:uppercase;font-size:11px;letter-spacing:.025em}.essential-photo img{object-position:50% 45%}.minor strong{text-transform:uppercase;font-size:14px}</style><style id="bio-camera-style">
-.bio-camera-bg,.bio-camera-photos,.bio-camera-next{display:none}
+</style><style id="image-crops">.bride img{object-position:50% 48%}.lesson img{object-position:50% 39%}.infographic img{object-fit:contain}.infographic:after{background:linear-gradient(0deg,#071d1999,transparent 35%)}.infographic .cover-title{font-size:clamp(27px,7.5vw,40px)}</style><style id="uppercase-buttons">.btn{text-transform:uppercase;font-size:11px;letter-spacing:.025em}.essential-photo img{object-position:50% 45%}.minor strong{text-transform:uppercase;font-size:14px}</style><meta name="robots" content="noindex"><style id="bio-camera-style">
+.bio-camera-bg,.bio-camera-photos,.bio-camera-navigation{display:none}
 @media (prefers-reduced-motion:no-preference) and (min-height:560px){
   html.bio-camera,html.bio-camera body{overflow-x:clip}
   .bio-camera body::before,.bio-camera body::after{display:none}
   .bio-camera-runway{position:relative}
   .bio-camera .bio-camera-stage{
     position:sticky;top:0;display:block;width:100%;height:100svh;max-width:none;
-    margin:0;padding:0;isolation:isolate;overflow:clip;perspective:840px;
+    margin:0;padding:0;isolation:isolate;overflow:clip;
     background:#f4f1ea;
   }
   .bio-camera-bg{
@@ -42,7 +42,7 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
   .bio-camera-bg::after{width:70%;height:54%;transform:translate(-48%,-51%) rotate(18deg) scale(var(--ring-scale,1));opacity:.54}
   .bio-camera-frame,.bio-camera-photo{
     position:absolute;inset:0;display:grid;place-items:center;pointer-events:none;
-    transform:translate3d(var(--x,0px),var(--y,0px),var(--z,0px)) rotate(var(--angle,0deg));
+    transform:translate3d(var(--x,0px),var(--y,0px),0) rotate(var(--angle,0deg)) scale(var(--scale,1));
     opacity:var(--opacity,0);filter:blur(var(--blur,0px));
   }
   .bio-camera-frame[data-reading] a,.bio-camera-frame[data-reading] button{pointer-events:auto}
@@ -50,7 +50,7 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
     width:min(520px,calc(100vw - 34px));margin:0;
   }
   .bio-camera-frame>.card{padding-top:10px;padding-bottom:12px}
-  .bio-camera-frame>.card .cover{aspect-ratio:var(--cover-ratio,16/9)}
+  .bio-camera-frame>.card .cover{aspect-ratio:var(--cover-ratio,16/9);max-height:min(29svh,270px)}
   .bio-camera-frame>.card .copy{padding-top:14px;padding-bottom:0}
   .bio-camera-frame>.card .description{margin-bottom:12px}
   .bio-camera-frame>.card .divider{margin:0 0 9px}
@@ -79,17 +79,26 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
     opacity:var(--lead-opacity,.62);filter:blur(var(--lead-blur,3px));
   }
   .bio-camera-frame .profile p.recognition{opacity:var(--recognition,0)}
-  .bio-camera-next{
-    display:inline-grid;place-items:center;margin-top:24px;padding:0;
-    width:44px;height:44px;border-radius:50%;border:1px solid #174d4355;
-    background:#fbfaf180;color:#174d43;cursor:pointer;font-size:23px;
+  .bio-camera-navigation{display:block;position:absolute;inset:0;z-index:50;pointer-events:none}
+  .bio-camera-control{
+    position:absolute;left:50%;translate:-50% 0;display:flex;align-items:center;gap:9px;
+    max-width:calc(100% - 24px);width:max-content;min-height:44px;padding:4px 12px 4px 4px;
+    border-radius:25px;border:1px solid #5174675c;background:#faf8f0f5;color:#174d43;
+    box-shadow:0 4px 16px #203a2f18;font:600 12px/1.24 Inter,system-ui,sans-serif;
+    text-align:left;cursor:pointer;pointer-events:auto;
   }
-  .bio-camera-next:focus-visible{outline:2px solid #a55e48;outline-offset:4px}
+  .bio-camera-control[hidden]{display:none}
+  .bio-camera-control[data-direction="up"]{top:max(8px,env(safe-area-inset-top))}
+  .bio-camera-control[data-direction="down"]{bottom:max(8px,env(safe-area-inset-bottom))}
+  .bio-camera-control:focus-visible{outline:2px solid #a55e48;outline-offset:3px}
+  .bio-camera-control span[aria-hidden]{display:grid;place-items:center;flex:0 0 32px;height:32px;border-radius:50%;background:#e9ede1;font-size:19px}
+  .bio-camera-control span:last-child{max-width:36ch}
   .bio-camera-social .divider{margin-top:0}
   .bio-camera-social footer{margin-bottom:0}
   @media (max-height:720px){
     .bio-camera-frame>.card{--cover-ratio:2.16}
     .bio-camera-frame>.card .copy{padding-top:11px}
+    .bio-camera-frame>.card .cover{max-height:27svh}
     .bio-camera-frame>.card .description{font-size:14px;margin-bottom:10px}
     .bio-camera-frame>.card :is(h1,h2){font-size:26px}
     .bio-camera-frame>.card .btn{min-height:42px;padding-top:8px;padding-bottom:8px}
@@ -102,173 +111,236 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
   const cards = [...main.querySelectorAll('.card')];
   const motion = matchMedia('(prefers-reduced-motion:no-preference) and (min-height:560px)');
   const original = [...main.childNodes];
-  const runway = document.createElement('div');
-  runway.className = 'bio-camera-runway';
-  const bg = document.createElement('div');
-  bg.className = 'bio-camera-bg';
-  bg.setAttribute('aria-hidden','true');
-  const photos = document.createElement('div');
-  photos.className = 'bio-camera-photos';
-  photos.setAttribute('aria-hidden','true');
-  const social = document.createElement('div');
-  social.className = 'bio-camera-social';
-  const next = document.createElement('button');
-  next.className = 'bio-camera-next';
-  next.setAttribute('aria-label','Avançar para a bio');
-  next.textContent = '↓';
   const dividers = [...main.querySelectorAll('.divider')];
   const socials = original.filter(node => node.matches?.('.minor,footer') || node === dividers[1]);
-  const clamp = x => Math.min(1,Math.max(0,x));
+  const clamp = x => Math.min(1, Math.max(0,x));
   const smooth = x => x*x*(3-2*x);
-  const depth = 1080;
-  const bioStop = .96;
-  const bioExit = 1.43;
-  const firstCardStop = 2;
-  const frames = [profile,...cards,social].map(node => {
-    const frame = document.createElement('section');
-    frame.className = 'bio-camera-frame';
+  const planeSpacing = 720;
+  const bioReadFrom = .65;
+  const bioReadUntil = 1.10;
+  const ramp = .28;
+  const firstCardStop = bioReadUntil + ramp/2 + 1;
+  const travelMs = 1500;
+
+  function make(tag, className) {
+    const element = document.createElement(tag);
+    element.className = className;
+    return element;
+  }
+
+  const runway = make('div','bio-camera-runway');
+  const bg = make('div','bio-camera-bg');
+  bg.setAttribute('aria-hidden','true');
+  const photos = make('div','bio-camera-photos');
+  photos.setAttribute('aria-hidden','true');
+  const social = make('div','bio-camera-social');
+  const nav = make('nav','bio-camera-navigation');
+  nav.setAttribute('aria-label','Seções da Tatmake');
+
+  const stops = [
+    {at:0, title:'Voltar à abertura'},
+    {at:.92, title:'Conhecer a Tati'},
+    {at:firstCardStop, title:'Ver orçamento e disponibilidade para maquiagem e penteado de noiva'},
+    {at:firstCardStop+1, title:'Ver como a Tati ajuda a escolher o look do casamento'},
+    {at:firstCardStop+2, title:'Conhecer o Método da Tati para profissionais da beleza'},
+    {at:firstCardStop+3, title:'Ver maquiagem para profissionais que atendem noivas'},
+    {at:firstCardStop+4, title:'Ver o Pinterest e o YouTube da Tatmake'}
+  ];
+  const lastStop = stops.at(-1).at;
+  const frames = [profile,...cards,social].map((node,index,all) => {
+    const frame = make('section','bio-camera-frame');
+    frame.style.zIndex = 12 + all.length - index;
     return {node,frame};
   });
+
   const flying = [
-    {card:0,at:.22,x:-.40,y:.12,angle:-12},
-    {card:1,at:.35,x:.43,y:-.11,angle:11},
-    {card:2,at:.49,x:-.56,y:-.20,angle:8},
-    {card:3,at:.58,x:.57,y:.23,angle:-9},
-    ...cards.map((_,i) => ({card:i,at:i+1.74,x:i%2 ? .40 : -.43,y:i%2 ? -.22 : .18,angle:i%2 ? 10 : -12}))
+    {card:0,at:-.13,x:-.46,y:.09,angle:-12},
+    {card:1,at:-.08,x:.49,y:-.09,angle:11},
+    ...cards.map((_,i) => ({card:i,at:i+.61,x:i%2 ? .58 : -.52,y:i%2 ? -.23 : .21,angle:i%2 ? 10 : -12}))
   ].map(spec => {
-    const plane = document.createElement('div');
-    plane.className = 'bio-camera-photo';
-    const image = cards[spec.card].querySelector('img').cloneNode();
-    image.alt = '';
-    plane.append(image);
+    const plane = make('div','bio-camera-photo');
+    const img = cards[spec.card].querySelector('img').cloneNode();
+    img.alt = '';
+    img.loading = 'eager';
+    plane.style.zIndex = spec.at<0 ? 20 : 25;
+    plane.append(img);
     photos.append(plane);
     return {...spec,plane};
   });
+
   let installed = false;
   let pending = 0;
+  let travelling = 0;
   let step = 1;
   let position = 0;
 
-  function setPlane(plane,x,y,z,angle,opacity,blur) {
-    plane.style.setProperty('--x',x.toFixed(1)+'px');
-    plane.style.setProperty('--y',y.toFixed(1)+'px');
-    plane.style.setProperty('--z',z.toFixed(1)+'px');
-    plane.style.setProperty('--angle',angle.toFixed(2)+'deg');
-    plane.style.setProperty('--opacity',opacity.toFixed(3));
-    plane.style.setProperty('--blur',blur.toFixed(2)+'px');
+  const controls = ['up','down'].map(direction => {
+    const button = make('button','bio-camera-control');
+    button.type = 'button';
+    button.dataset.direction = direction;
+    const arrow = document.createElement('span');
+    arrow.setAttribute('aria-hidden','true');
+    arrow.textContent = direction==='up' ? '\u2191' : '\u2193';
+    const label = document.createElement('span');
+    button.append(arrow,label);
+    nav.append(button);
+    const control = {button,label,target:-1};
+    button.addEventListener('click',() => {
+      if (control.target>=0) goTo(stops[control.target].at,true);
+    });
+    return control;
+  });
+
+  function goTo(stop,animate) {
+    stopTravel();
+    const from = window.scrollY;
+    const goal = Math.round(from+runway.getBoundingClientRect().top+step*stop);
+    if (!animate || Math.abs(goal-from)<2) {
+      window.scrollTo({top:goal,behavior:'instant'});
+      draw();
+      return;
+    }
+    let started;
+    function travel(now) {
+      started ??= now;
+      const t = clamp((now-started)/travelMs);
+      const eased = t*t*t*(t*(6*t-15)+10);
+      window.scrollTo({top:from+(goal-from)*eased,behavior:'instant'});
+      if (t<1 && installed) travelling=requestAnimationFrame(travel);
+      else travelling=0;
+    }
+    travelling=requestAnimationFrame(travel);
+  }
+
+  function stopTravel() {
+    if (travelling) cancelAnimationFrame(travelling);
+    travelling=0;
+  }
+
+  function setControls() {
+    const atBio = position>=bioReadFrom && position<=bioReadUntil;
+    const settled = atBio ? 1 : stops.findIndex(stop => Math.abs(position-stop.at)<.045);
+    const next = settled<0 ? stops.findIndex(stop=>stop.at>position) : settled+1;
+    const prev = settled<0 ? next-1 : settled-1;
+    [prev,next].forEach((target,index) => {
+      const control = controls[index];
+      const destination = stops[target];
+      control.button.hidden = !destination;
+      if (destination && control.target!==target) control.label.textContent=destination.title;
+      control.target = destination ? target : -1;
+    });
+  }
+
+  function setPlane(element,x,y,distance,angle,opacity,blur) {
+    const scale = 900 / Math.max(350,900+distance);
+    element.style.setProperty('--x',(x*scale).toFixed(2)+'px');
+    element.style.setProperty('--y',(y*scale).toFixed(2)+'px');
+    element.style.setProperty('--scale',scale.toFixed(4));
+    element.style.setProperty('--angle',angle.toFixed(3)+'deg');
+    element.style.setProperty('--opacity',opacity.toFixed(3));
+    element.style.setProperty('--blur',blur.toFixed(2)+'px');
   }
 
   function draw() {
-    pending = 0;
+    pending=0;
     if (!installed) return;
     const width = main.clientWidth;
     const height = main.clientHeight;
-    position = Math.min(frames.length,Math.max(0,-runway.getBoundingClientRect().top/step));
-    const intro = smooth(clamp(position/.67));
-    const remaining = Math.max(0,position-firstCardStop);
-    const index = Math.floor(remaining);
-    const camera = position < firstCardStop
-      ? smooth(clamp((position-bioExit)/(firstCardStop-bioExit)))
-      : 1+index+smooth(clamp((remaining-index-.15)/.72));
-    const steering = Math.sin(camera*Math.PI);
-    const reading = Math.round(camera);
-    bg.style.setProperty('--bg-x',(Math.sin(camera*1.1)*.16+(1-intro)*.06)*width+'px');
-    bg.style.setProperty('--bg-y',(Math.cos(camera*.85)*.12-(1-intro)*.06)*height-45+'px');
-    bg.style.setProperty('--bg-scale',1.04+Math.abs(steering)*.19+(1-intro)*.14);
-    bg.style.setProperty('--ring-scale',1+camera*.095+steering*.13+(1-intro)*.18);
+    position = Math.min(lastStop,Math.max(0,-runway.getBoundingClientRect().top/step));
+    const intro = smooth(clamp(position/bioReadFrom));
+    const onward = Math.max(0,position-bioReadUntil);
+    const camera = onward < ramp ? onward*onward/(2*ramp)-.21*(1-intro) : onward-ramp/2;
+    const routeX = z => Math.sin(z*1.42)*width*.29;
+    const cameraX = routeX(camera);
+    const cameraY = camera*height*.83;
+    const roll = Math.sin(camera*Math.PI)*4;
+    const reading = Math.max(0,Math.round(camera));
+    bg.style.setProperty('--bg-x',(-cameraX*.32+Math.sin(camera*.71)*width*.08)+'px');
+    bg.style.setProperty('--bg-y',(-Math.sin(camera*.81)*height*.09-26)+'px');
+    bg.style.setProperty('--bg-scale',1.06+(.5+.5*Math.cos(camera*.96))*.14);
+    bg.style.setProperty('--ring-scale',1.12+Math.sin(camera*.74)*.16);
 
-    frames.forEach(({frame},i) => {
-      const delta = camera-i;
-      const direction = i%2 ? 1 : -1;
-      const opening = i===0 ? 1-intro : 0;
-      const enteringFirst = i===1 && delta<0;
-      const x = delta*width*(enteringFirst ? .16 : .23)*direction-steering*width*.10;
-      const y = -delta*height*(enteringFirst ? .33 : .19)+Math.abs(steering)*height*.035+opening*height*.055;
-      const opacity = enteringFirst
-        ? smooth(clamp((delta+1)/.82))
-        : delta>=0 ? 1-smooth(clamp((delta-.10)/(i===0?.68:.42))) : 1-smooth(clamp((-delta-.17)/.65));
-      const blur = Math.min(11,Math.abs(delta)*10);
-      setPlane(frame,x,y,Math.min(790,delta*depth+opening*65),delta*direction*9,opacity,blur);
-      frame.toggleAttribute('data-reading',i===reading && Math.abs(delta)<.19);
-      frame.style.setProperty('--depth',Math.max(-1,Math.min(1,-delta)));
+    frames.forEach(({frame},index) => {
+      const distance = (index-camera)*planeSpacing;
+      const far = smooth(clamp((distance-28)/860));
+      const passed = smooth(clamp((-distance-78)/380));
+      const opacity = (1-far)*(1-passed);
+      setPlane(frame,routeX(index)-cameraX,index*height*.83-cameraY,distance,-roll,
+        opacity,Math.min(12,Math.abs(distance)/105));
+      frame.toggleAttribute('data-reading',index===reading && Math.abs(distance)<85);
+      frame.style.setProperty('--depth',Math.max(-1,Math.min(1,distance/planeSpacing)));
     });
 
     for (const {plane,at,x,y,angle} of flying) {
-      const delta = camera-at;
-      const active = Math.abs(delta) < .55;
-      if (!active) {
-        plane.style.setProperty('--opacity',0);
-        continue;
-      }
-      const entrance = smooth(clamp((delta+.48)/.27));
-      const exit = 1-smooth(clamp((delta-.06)/.18));
-      const clearing = at<1 ? intro*(1-smooth(clamp(camera/.21))) : 0;
-      setPlane(plane,x*width-steering*width*.09+Math.sign(x)*clearing*width*.26,y*height-delta*height*.22,
-        Math.min(790,delta*depth+365),angle+delta*21,entrance*exit*(1-clearing)*.61,2+Math.abs(delta)*15);
+      const distance = (at-camera)*planeSpacing;
+      const approach = 1-smooth(clamp((distance-80)/410));
+      const pass = 1-smooth(clamp((-distance-10)/305));
+      const clearBio = at<0 ? 1-intro : smooth(clamp(Math.abs(camera-Math.round(camera))/.24));
+      setPlane(plane,routeX(at)+x*width-cameraX,at*height*.83+y*height-cameraY,
+        distance,angle-roll,approach*pass*clearBio*.53,2+Math.min(10,Math.abs(distance)/72));
     }
 
-    profile.style.setProperty('--portrait-scale',1.70-.70*intro);
-    profile.style.setProperty('--logo-scale',1.52-.52*intro);
-    profile.style.setProperty('--lead-scale',1.52-.52*intro);
-    profile.style.setProperty('--lead-y',22-22*intro+'px');
-    profile.style.setProperty('--lead-opacity',.66+.34*intro);
+    profile.style.setProperty('--portrait-scale',1.80-.80*intro);
+    profile.style.setProperty('--logo-scale',1.58-.58*intro);
+    profile.style.setProperty('--lead-scale',1.55-.55*intro);
+    profile.style.setProperty('--lead-y',22*(1-intro)+'px');
+    profile.style.setProperty('--lead-opacity',.64+.36*intro);
     profile.style.setProperty('--lead-blur',4.6*(1-intro)+'px');
     profile.style.setProperty('--recognition',intro);
-    next.setAttribute('aria-label',position<.67 ? 'Avançar para a bio' : 'Ir para os links');
+    setControls();
   }
 
   function schedule() {
-    if (installed && !pending) pending = requestAnimationFrame(draw);
+    if (installed && !pending) pending=requestAnimationFrame(draw);
   }
 
   function measure() {
     if (!installed) return;
-    step = Math.max(440,main.clientHeight*.85);
-    runway.style.height = main.clientHeight+step*frames.length+Math.round(step*.14)+'px';
+    step=Math.max(440,main.clientHeight*.85);
+    runway.style.height=Math.ceil(main.clientHeight+step*(lastStop+.12))+'px';
     draw();
   }
 
-  function goTo(index,behavior) {
-    const start = window.scrollY+runway.getBoundingClientRect().top;
-    window.scrollTo({top:start+step*index,behavior});
-  }
-
   function sync() {
-    if (motion.matches === installed) return;
-    installed = motion.matches;
+    if (motion.matches===installed) return;
+    installed=motion.matches;
     if (installed) {
       main.before(runway);
       runway.append(main);
       main.replaceChildren(bg);
-      socials.forEach(node => social.append(node));
+      socials.forEach(node=>social.append(node));
       if (dividers[0] && cards[2]) cards[2].querySelector('.copy').prepend(dividers[0]);
-      profile.append(next);
-      frames.forEach(({node,frame}) => {frame.append(node);main.append(frame);});
-      main.append(photos);
+      frames.forEach(({node,frame})=>{frame.append(node);main.append(frame)});
+      main.append(photos,nav);
       main.classList.add('bio-camera-stage');
       document.documentElement.classList.add('bio-camera');
       measure();
     } else {
+      stopTravel();
       main.classList.remove('bio-camera-stage');
       document.documentElement.classList.remove('bio-camera');
-      next.remove();
       main.replaceChildren(...original);
       runway.before(main);
       runway.remove();
     }
   }
 
-  next.addEventListener('click',() => goTo(position<.67 ? bioStop : firstCardStop,'smooth'));
-  main.addEventListener('focusin',event => {
-    if (!installed || !event.target.matches(':focus-visible') || event.target===next) return;
-    const index=frames.findIndex(({frame}) => frame.contains(event.target));
-    if (index>=0 && !frames[index].frame.hasAttribute('data-reading')) goTo(index===0 ? bioStop : index+1,'instant');
+  main.addEventListener('focusin',event=>{
+    if (!installed || !event.target.matches(':focus-visible') || nav.contains(event.target)) return;
+    const index=frames.findIndex(({frame})=>frame.contains(event.target));
+    if (index>=0 && !frames[index].frame.hasAttribute('data-reading')) goTo(stops[index+1].at,false);
   });
   motion.addEventListener('change',sync);
   window.addEventListener('scroll',schedule,{passive:true});
   window.addEventListener('resize',measure);
   window.addEventListener('pageshow',schedule);
+  window.addEventListener('wheel',stopTravel,{passive:true});
+  window.addEventListener('touchstart',stopTravel,{passive:true});
+  window.addEventListener('keydown',event=>{
+    if (['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key)) stopTravel();
+  });
   sync();
 })();
 </script></body></html>
+
 
