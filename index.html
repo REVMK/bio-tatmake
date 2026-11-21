@@ -119,6 +119,7 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
   const ramp = .28;
   const firstCardStop = bioReadUntil + ramp/2 + 1;
   const travelMs = 1500;
+  const openingMs = 3000;
 
   function make(tag, className) {
     const element = document.createElement(tag);
@@ -171,6 +172,7 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
   let travelling = 0;
   let step = 1;
   let position = 0;
+  let opening = motion.matches;
 
   const controls = ['up','down'].map(direction => {
     const button = make('button','bio-camera-control');
@@ -183,28 +185,33 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
     nav.append(button);
     const control = {button,target:-1};
     button.addEventListener('click',() => {
-      if (control.target>=0) goTo(stops[control.target].at,true);
+      if (control.target>=0) goTo(stops[control.target].at,travelMs);
     });
     return control;
   });
 
-  function goTo(stop,animate) {
+  function goTo(stop,duration=0,onComplete) {
     stopTravel();
     const from = window.scrollY;
     const goal = Math.round(from+runway.getBoundingClientRect().top+step*stop);
-    if (!animate || Math.abs(goal-from)<2) {
+    if (!duration || Math.abs(goal-from)<2) {
       window.scrollTo({top:goal,behavior:'instant'});
+      onComplete?.();
       draw();
       return;
     }
     let started;
     function travel(now) {
       started ??= now;
-      const t = clamp((now-started)/travelMs);
+      const t = clamp((now-started)/duration);
       const eased = t*t*t*(t*(6*t-15)+10);
       window.scrollTo({top:from+(goal-from)*eased,behavior:'instant'});
       if (t<1 && installed) travelling=requestAnimationFrame(travel);
-      else travelling=0;
+      else {
+        travelling=0;
+        onComplete?.();
+        draw();
+      }
     }
     travelling=requestAnimationFrame(travel);
   }
@@ -221,7 +228,7 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
     const prev = settled<0 ? next-1 : settled-1;
     [prev,next].forEach((target,index) => {
       const control = controls[index];
-      const destination = stops[target];
+      const destination = !opening && target>0 ? stops[target] : undefined;
       control.button.hidden = !destination;
       if (destination && control.target!==target) control.button.setAttribute('aria-label',destination.title);
       control.target = destination ? target : -1;
@@ -246,10 +253,16 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
     position = Math.min(lastStop,Math.max(0,-runway.getBoundingClientRect().top/step));
     const intro = smooth(clamp(position/bioReadFrom));
     const onward = Math.max(0,position-bioReadUntil);
-    const camera = onward < ramp ? onward*onward/(2*ramp)-.21*(1-intro) : onward-ramp/2;
+    let camera = onward < ramp ? onward*onward/(2*ramp)+.18*(1-intro) : onward-ramp/2;
+    const nearestCard = Math.round(camera);
+    if (nearestCard===1 || nearestCard===2) {
+      const offset = camera-nearestCard;
+      const focusBlend = smooth(clamp((Math.abs(offset)-.065)/.09));
+      camera = nearestCard+offset*focusBlend;
+    }
     const routeX = z => Math.sin(z*1.42)*width*.29;
     const cameraX = routeX(camera);
-    const cameraY = camera*height*.83;
+    const cameraY = (camera-.04*(1-intro))*height*.83;
     const roll = Math.sin(camera*Math.PI)*4;
     const reading = Math.max(0,Math.round(camera));
     bg.style.setProperty('--bg-x',(-cameraX*.32+Math.sin(camera*.71)*width*.08)+'px');
@@ -262,8 +275,9 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
       const far = smooth(clamp((distance-28)/860));
       const passed = smooth(clamp((-distance-78)/380));
       const opacity = (1-far)*(1-passed);
+      const openingBlur = index===0 ? 2.8*(1-intro) : 0;
       setPlane(frame,routeX(index)-cameraX,index*height*.83-cameraY,distance,-roll,
-        opacity,Math.min(12,Math.abs(distance)/105));
+        opacity,Math.min(12,Math.abs(distance)/105+openingBlur));
       frame.toggleAttribute('data-reading',index===reading && Math.abs(distance)<85);
       frame.style.setProperty('--depth',Math.max(-1,Math.min(1,distance/planeSpacing)));
     });
@@ -277,12 +291,12 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
         distance,angle-roll,approach*pass*clearBio*.53,2+Math.min(10,Math.abs(distance)/72));
     }
 
-    profile.style.setProperty('--portrait-scale',1.80-.80*intro);
-    profile.style.setProperty('--logo-scale',1.58-.58*intro);
-    profile.style.setProperty('--lead-scale',1.55-.55*intro);
+    profile.style.setProperty('--portrait-scale',2.13-1.13*intro);
+    profile.style.setProperty('--logo-scale',1.82-.82*intro);
+    profile.style.setProperty('--lead-scale',1.84-.84*intro);
     profile.style.setProperty('--lead-y',22*(1-intro)+'px');
     profile.style.setProperty('--lead-opacity',.64+.36*intro);
-    profile.style.setProperty('--lead-blur',4.6*(1-intro)+'px');
+    profile.style.setProperty('--lead-blur',6.2*(1-intro)+'px');
     profile.style.setProperty('--recognition',intro);
     setControls();
   }
@@ -314,6 +328,7 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
       measure();
     } else {
       stopTravel();
+      opening=false;
       main.classList.remove('bio-camera-stage');
       document.documentElement.classList.remove('bio-camera');
       main.replaceChildren(...original);
@@ -325,16 +340,23 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
   main.addEventListener('focusin',event=>{
     if (!installed || !event.target.matches(':focus-visible') || nav.contains(event.target)) return;
     const index=frames.findIndex(({frame})=>frame.contains(event.target));
-    if (index>=0 && !frames[index].frame.hasAttribute('data-reading')) goTo(stops[index+1].at,false);
+    if (index>=0 && !frames[index].frame.hasAttribute('data-reading')) goTo(stops[index+1].at);
   });
   motion.addEventListener('change',sync);
   window.addEventListener('scroll',schedule,{passive:true});
   window.addEventListener('resize',measure);
-  window.addEventListener('pageshow',schedule);
-  window.addEventListener('wheel',stopTravel,{passive:true});
-  window.addEventListener('touchstart',stopTravel,{passive:true});
+  window.addEventListener('pageshow',()=>{
+    if (!installed) return;
+    stopTravel();
+    opening=true;
+    goTo(stops[0].at);
+    goTo(stops[1].at,openingMs,()=>{opening=false});
+  });
+  const interrupt = ()=>{if (!opening) stopTravel()};
+  window.addEventListener('wheel',interrupt,{passive:true});
+  window.addEventListener('touchstart',interrupt,{passive:true});
   window.addEventListener('keydown',event=>{
-    if (['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key)) stopTravel();
+    if (['ArrowDown','ArrowUp','PageDown','PageUp','Home','End',' '].includes(event.key)) interrupt();
   });
   sync();
 })();
