@@ -81,18 +81,16 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
   .bio-camera-frame .profile p.recognition{opacity:var(--recognition,0)}
   .bio-camera-navigation{display:block;position:absolute;inset:0;z-index:50;pointer-events:none}
   .bio-camera-control{
-    position:absolute;left:50%;translate:-50% 0;display:flex;align-items:center;gap:9px;
-    max-width:calc(100% - 24px);width:max-content;min-height:44px;padding:4px 12px 4px 4px;
-    border-radius:25px;border:1px solid #5174675c;background:#faf8f0f5;color:#174d43;
-    box-shadow:0 4px 16px #203a2f18;font:600 12px/1.24 Inter,system-ui,sans-serif;
-    text-align:left;cursor:pointer;pointer-events:auto;
+    position:absolute;left:50%;translate:-50% 0;display:grid;place-items:center;
+    width:44px;height:44px;padding:0;border-radius:50%;
+    border:1px solid #5174675c;background:#faf8f0f5;color:#174d43;
+    box-shadow:0 4px 16px #203a2f18;font:500 21px/1 system-ui,sans-serif;
+    cursor:pointer;pointer-events:auto;
   }
   .bio-camera-control[hidden]{display:none}
   .bio-camera-control[data-direction="up"]{top:max(8px,env(safe-area-inset-top))}
   .bio-camera-control[data-direction="down"]{bottom:max(8px,env(safe-area-inset-bottom))}
   .bio-camera-control:focus-visible{outline:2px solid #a55e48;outline-offset:3px}
-  .bio-camera-control span[aria-hidden]{display:grid;place-items:center;flex:0 0 32px;height:32px;border-radius:50%;background:#e9ede1;font-size:19px}
-  .bio-camera-control span:last-child{max-width:36ch}
   .bio-camera-social .divider{margin-top:0}
   .bio-camera-social footer{margin-bottom:0}
   @media (max-height:720px){
@@ -181,10 +179,9 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
     const arrow = document.createElement('span');
     arrow.setAttribute('aria-hidden','true');
     arrow.textContent = direction==='up' ? '\u2191' : '\u2193';
-    const label = document.createElement('span');
-    button.append(arrow,label);
+    button.append(arrow);
     nav.append(button);
-    const control = {button,label,target:-1};
+    const control = {button,target:-1};
     button.addEventListener('click',() => {
       if (control.target>=0) goTo(stops[control.target].at,true);
     });
@@ -226,7 +223,7 @@ main{z-index:1}.profile{padding:37px 4px 34px}.portrait{width:112px;height:112px
       const control = controls[index];
       const destination = stops[target];
       control.button.hidden = !destination;
-      if (destination && control.target!==target) control.label.textContent=destination.title;
+      if (destination && control.target!==target) control.button.setAttribute('aria-label',destination.title);
       control.target = destination ? target : -1;
     });
   }
